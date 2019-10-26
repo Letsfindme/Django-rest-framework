@@ -50,7 +50,7 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    """Ingredient to be used in a recipe"""
+    """Ingredient to be used in a Post"""
     name = models.CharField(max_length=255)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -61,8 +61,8 @@ class Ingredient(models.Model):
         return self.name
 
 
-class Recipe(models.Model):
-    """Recipe object"""
+class Post(models.Model):
+    """Post object"""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
