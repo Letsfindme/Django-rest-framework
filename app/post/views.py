@@ -76,3 +76,10 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Retrieve the Posts for the authenticated user"""
         return self.queryset.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        """Return appropriate serializer class"""
+        if self.action == 'retrieve':
+            return serializers.PostDetailSerializer
+
+        return self.serializer_class

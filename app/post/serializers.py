@@ -39,3 +39,8 @@ class PostSerializer(serializers.ModelSerializer):
             'link',
         )
         read_only_fields = ('id',)
+
+
+class PostDetailSerializer(PostSerializer):
+    ingredients = IngredientSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
