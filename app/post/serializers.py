@@ -44,3 +44,12 @@ class PostSerializer(serializers.ModelSerializer):
 class PostDetailSerializer(PostSerializer):
     ingredients = IngredientSerializer(many=True, read_only=True)
     tags = TagSerializer(many=True, read_only=True)
+
+
+class PostImageSerializer(serializers.ModelSerializer):
+    """Serializer for uploading images to Post"""
+
+    class Meta:
+        model = Post
+        fields = ('id', 'image')
+        read_only_fields = ('id',)
