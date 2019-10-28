@@ -156,3 +156,39 @@ class PrivatePostApiTests(TestCase):
         self.assertEqual(ingredients.count(), 2)
         self.assertIn(ingredient1, ingredients)
         self.assertIn(ingredient2, ingredients)
+
+    def test_partial_update_post(self):
+        """Test updating a post with patch"""
+        post = sample_post(user=self.user)
+        post.tags.add(sample_tag(user=self.user))
+        new_tag = sample_tag(user=self.user, name='Curry')
+
+        payload = {'title': 'Chicken tikka', 'tags': [new_tag.id]}
+        url = detail_url(post.id)
+        self.client.patch(url, payload)
+
+        post.refresh_from_db()
+        self.assertEqual(post.title, payload['title'])
+        tags = post.tags.all()
+        self.assertEqual(len(tags), 1)
+        self.assertIn(new_tag, tags)
+
+    def test_full_update_post(self):
+        """Test updating a post with put"""
+        post = sample_post(user=self.user)
+        post.tags.add(sample_tag(user=self.user))
+
+        payload = {
+            'title': 'Spaghetti carbonara',
+            'time_minutes': 25,
+            'price': 5.00
+        }
+        url = detail_url(post.id)
+        self.client.put(url, payload)
+
+        post.refresh_from_db()
+        self.assertEqual(post.title, payload['title'])
+        self.assertEqual(post.time_minutes, payload['time_minutes'])
+        self.assertEqual(post.price, payload['price'])
+        tags = post.tags.all()
+        self.assertEqual(len(tags), 0)
