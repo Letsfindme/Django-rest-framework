@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='birthday',
-            field=models.DateField(default=''),
+            field=models.DateField(null=True),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -49,13 +49,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='creationDate',
-            field=models.DateTimeField(auto_now_add=True, default=''),
+            field=models.DateTimeField(auto_now_add=True),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='user',
             name='firstConnection',
-            field=models.DateField(default=''),
+            field=models.DateField(null=True),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='lastConnection',
-            field=models.DateField(default=''),
+            field=models.DateField(null=True),
             preserve_default=False,
         ),
         migrations.AddField(

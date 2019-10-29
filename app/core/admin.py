@@ -7,10 +7,10 @@ from core import models
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
-    list_display = ['email', 'name']
+    list_display = ['email', 'username']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal Info'), {'fields': ('name',)}),
+        (_('Personal Info'), {'fields': ('username',)}),
         (
             _('Permissions'),
             {
