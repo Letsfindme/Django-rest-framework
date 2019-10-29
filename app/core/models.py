@@ -42,6 +42,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    firstname = models.CharField(max_length=255)
+    lastname = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    #password: Sequelize.STRING,
+    firstConnection = models.DateField()
+    lastConnection = models.DateField()
+    avatar = models.BooleanField(default=False)
+    creationDate= models.DateTimeField(auto_now_add=True)
+    updatedDate = models.DateTimeField(auto_now=True)
+    birthday = models.DateField()
+    age = models.IntegerField()
+    status = models.CharField(max_length=255)
+    avatar = models.ImageField(null=True, upload_to=post_image_file_path)
 
     objects = UserManager()
 
@@ -82,9 +96,67 @@ class Post(models.Model):
     time_minutes = models.IntegerField()
     price = models.DecimalField(max_digits=5, decimal_places=2)
     link = models.CharField(max_length=255, blank=True)
-    ingredients = models.ManyToManyField('Ingredient')
+    #ingredients = models.ManyToManyField('Ingredient')
     tags = models.ManyToManyField('Tag')
-    image = models.ImageField(null=True, upload_to=post_image_file_path)
+    imageUrl= models.ImageField(null=True, upload_to=post_image_file_path)
+    #image = models.ImageField(null=True, upload_to=post_image_file_path)
+    starCount = models.IntegerField()
+    category = models.CharField(max_length=255, blank=True)
+    creationDate = models.DateTimeField(auto_now_add=True)
+    updatedDate = models.DateTimeField(auto_now=True, blank=True)
+    content = models.CharField(max_length=255)
+
 
     def __str__(self):
         return self.title
+
+
+class Image(models.Model):
+    """ Image of post """
+    post = models.ForeignKey(
+        'Post',
+        #related_name='images',
+        on_delete=models.CASCADE
+    )
+    imageRef = models.ImageField(null=True, upload_to=post_image_file_path)
+
+
+class Address(models.Model):
+    """ Address object """
+    street= models.CharField(max_length=255, blank=True)
+    city= models.CharField(max_length=255, blank=True)
+    country= models.CharField(max_length=255, blank=True)
+    postcode = models.IntegerField(blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+
+class PostComment(models.Model):
+    """ PostComment object """
+    title= models.CharField(max_length=255, blank=True)
+    text= models.CharField(max_length=255, blank=True)
+    imageRef= models.CharField(max_length=255, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    post = models.ForeignKey(
+        'Post',
+        #related_name='images',
+        on_delete=models.CASCADE
+    )
+
+class PostRate(models.Model):
+    """ PostRate object """
+    rate = models.IntegerField()
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    post = models.ForeignKey(
+        'Post',
+        #related_name='images',
+        on_delete=models.CASCADE
+    )
