@@ -99,7 +99,7 @@ class Post(models.Model):
     tags = models.ManyToManyField('Tag')
     imageUrl= models.ImageField(null=True, upload_to=post_image_file_path)
     #image = models.ImageField(null=True, upload_to=post_image_file_path)
-    starCount = models.IntegerField()
+    starCount = models.IntegerField(null=True)
     category = models.CharField(max_length=255, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True)
     updatedDate = models.DateTimeField(auto_now=True, blank=True)
@@ -114,7 +114,7 @@ class Image(models.Model):
     """ Image of post """
     post = models.ForeignKey(
         'Post',
-        #related_name='images',
+        related_name='images',
         on_delete=models.CASCADE
     )
     imageRef = models.ImageField(null=True, upload_to=post_image_file_path)
